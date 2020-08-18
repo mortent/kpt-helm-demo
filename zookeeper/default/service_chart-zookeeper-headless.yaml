@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chart-zookeeper-headless
+  namespace: default
+  labels:
+    app.kubernetes.io/name: zookeeper
+    helm.sh/chart: zookeeper-5.21.4
+    app.kubernetes.io/instance: chart
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: zookeeper
+spec:
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+  - name: tcp-client
+    port: 2181
+    targetPort: client
+  - name: follower
+    port: 2888
+    targetPort: follower
+  - name: tcp-election
+    port: 3888
+    targetPort: election
+  selector:
+    app.kubernetes.io/name: zookeeper
+    app.kubernetes.io/instance: chart
+    app.kubernetes.io/component: zookeeper
